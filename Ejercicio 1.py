@@ -1,6 +1,5 @@
 import pygame
-
-'Ibai es Gilipollas'
+from ladrillo import Ladrillo
 
 pygame.init()
 ventana = pygame.display.set_mode((640,480))
@@ -17,8 +16,9 @@ bate = pygame.image.load("barra.png")
 baterect = bate.get_rect()
 
 # Crea el objeto ladrillo, y obtengo su rectángulo
-ladrillo = pygame.image.load("Ladrillo.png")
-ladrillorect = pygame.Rect(150,150,50,50)
+"""ladrillo = pygame.image.load("Ladrillo.png")
+ladrillorect = pygame.Rect(150,150,50,50)"""
+ladrillo = Ladrillo()
 
 
 # Pongo el bate en la parte inferior de la pantalla
