@@ -1,5 +1,15 @@
-import pygame 
-blanco = (255,255,255)
+import pygame,sys
+# Paleta de colores
+azul = (  0,  0,  255)
+negro = (  0,  0,  0)
+verde = (  0,  255,  0)
+cian = (  0,  255,  255)
+rojo = (  255,  0,  0)
+magenta = (  255,  0,  255)
+amarillo = (  255,  255,  0)
+blanco = ( 255, 255, 255)
+
+lista_colores = (azul, negro, verde, cian, rojo, magenta, amarillo, blanco)
 class Ladrillo:
     def __init__(self,dist_x,dist_l,dist_y,dist_h,color):
 #                                                                           (0,0)
@@ -16,6 +26,12 @@ class Ladrillo:
         self.dist_h = dist_h
         self.color = color
 
+    def draw(self,ventana):
+        pygame.draw.rect(ventana, self.color, (self.dist_x, self.dist_y, self.dist_l, self.dist_h))
+    
 
-ladrillo = Ladrillo(5,25,5,15,blanco)
-print(ladrillo)
+
+ladrillo = Ladrillo(5,30,5,15,blanco)
+    
+
+
