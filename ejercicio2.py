@@ -1,10 +1,20 @@
-import pygame
-from random import randint
-
-
+import pygame, sys
+from COLORES import (NEGRO, VERDE, CIAN, AZUL)
+from random import randint  
+import random 
+from Ladrillos import Ladrillo 
 pygame.init()
 ventana = pygame.display.set_mode((640,480))
 pygame.display.set_caption("Ejemplo 4")
+
+azul = (  0,  0,  255)
+negro = (  0,  0,  0)
+verde = (  0,  255,  0)
+cian = (  0,  255,  255)
+rojo = (  255,  0,  0)
+magenta = (  255,  0,  255)
+amarillo = (  255,  255,  0)
+blanco = ( 255, 255, 255)
 
 ball = pygame.image.load("ball.png")
 ballrect = ball.get_rect()
@@ -14,6 +24,9 @@ ballrect.move_ip(0,0)
 barra = pygame.image.load("barra.png")
 barrarect = barra.get_rect()
 barrarect.move_ip(240,450)
+
+ladrillos = [Ladrillo(x * 80, 50, 60, 30, cian) for x in range(10)]
+
 
 fuente = pygame.font.Font(None, 36)
 
@@ -46,6 +59,10 @@ while jugando:
         ventana.fill((252, 243, 207))
         ventana.blit(ball, ballrect)
         ventana.blit(barra, barrarect)
+
+    for ladrillo in ladrillos:
+        
+        ladrillorect = ladrillo.draw(ventana)
 
     pygame.display.flip()
     pygame.time.Clock().tick(60)
