@@ -106,8 +106,8 @@ pygame.display.set_caption("                                                    
 tiempo = pygame.time.Clock()
 
 # Definir constantes para la velocidad de la bola
-min_velocidad = 3
-max_velocidad = 10
+min_velocidad = 10
+max_velocidad = 15
 
 # Definir constantes para el tamaño del mensaje de enhorabuena
 ancho_mensaje = 200
@@ -210,6 +210,17 @@ class Ladrillo:
                     ladrillos.remove(self)  # Eliminar el ladrillo de la lista ladrillos
             bola.vy *= -1
             return True
+class ladrillo_indestructible(Ladrillo):
+    def __init__(self, x, y, ancho, alto, color_actual, color_golpeado):
+         self.x = x
+         self.y = y
+         self.ancho = ancho
+         self.alto = alto
+         self.color_actual = color_actual
+         self.color_golpeado = color_golpeado
+    
+        
+        
         
     
 #INICIO EL PROGRAMA
@@ -243,6 +254,9 @@ matriz_colores = [
     [rojo, verde_medio, rojo, rojo, blanco, rojo, rojo, verde_medio, rojo, rojo],
     [verde_medio, rojo, rojo, rojo, blanco, rojo, rojo, rojo, verde_medio, rojo]
 ]
+indestruc = ladrillo_indestructible(247,150,ancho_lad,alto_lad,rosa,rosa)
+ladrillos.append(indestruc)
+
 # Bucle para crear los ladrillos
 for fila in range(9):
     for columna in range(9):
@@ -308,6 +322,7 @@ while True:
         
     #Actualizar pantalla
     # Dibujar la bola
+    
     ventana.fill(negro)
     # Crear una lista de corazones
     corazones = [pygame.Rect(x_corazon - 100 + i * (ancho_corazon + 5),
@@ -321,8 +336,12 @@ while True:
     # Verificar si no quedan ladrillos
     bola.dibujar(ventana)
     bate.dibujar(ventana)
+    
+    indestruc.dibujar(ventana)
+    
     for ladrillo in ladrillos:
         ladrillo.dibujar(ventana)
+    
     pygame.display.flip()
     tiempo.tick(60)
 
@@ -332,7 +351,7 @@ while True:
         velocidad_x = random.randint(min_velocidad, max_velocidad)
         velocidad_y = random.randint(min_velocidad, max_velocidad)
         bola = Bola(ancho_ven // 2, alto_ven // 2, 10, magenta_claro, velocidad_x, -velocidad_y)
-        bate = Bate(ancho_ven // 2 - 50, alto_ven - 35, 100, 20, azul)
+        bate = Bate(ancho_ven // 2 - 50, alto_ven - 35, 700, 20, azul)
     
     
     # Si se pierden todas las vidas, mostrar "Game Over" y esperar a que el jugador presione una tecla para reiniciar
