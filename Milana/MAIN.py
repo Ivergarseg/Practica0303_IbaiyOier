@@ -106,8 +106,8 @@ pygame.display.set_caption("                                                    
 tiempo = pygame.time.Clock()
 
 # Definir constantes para la velocidad de la bola
-min_velocidad = 10
-max_velocidad = 15
+min_velocidad = 5
+max_velocidad = 10
 
 # Definir constantes para el tamaño del mensaje de enhorabuena
 ancho_mensaje = 200
@@ -218,6 +218,18 @@ class ladrillo_indestructible(Ladrillo):
          self.alto = alto
          self.color_actual = color_actual
          self.color_golpeado = color_golpeado
+    def colision(self, bola):
+         if (bola.x + bola.radio >= self.x and bola.x - bola.radio <= self.x + self.ancho and
+            bola.y + bola.radio >= self.y and bola.y - bola.radio <= self.y + self.alto):
+            if self.color_actual == blanco:
+                self.color_actual = verde_medio
+                self.color_golpeado = verde_medio
+            elif self.color_actual == verde_medio:
+                self.color_actual = rojo
+                self.color_golpeado = rosa
+            elif self.color_actual == rojo:
+                self.color_actual == rosa
+            bola.vy *= -1
     
         
         
@@ -242,6 +254,8 @@ ancho_lad = 55
 alto_lad = 20
 # Creo una lista para los ladrillos
 ladrillos = []
+ladrillo_indestruc=[]
+
 # Matriz 10x9 de colores
 matriz_colores = [
     [verde_medio, rojo, rojo, rojo, blanco, rojo, rojo, rojo, verde_medio],
@@ -254,20 +268,22 @@ matriz_colores = [
     [rojo, verde_medio, rojo, rojo, blanco, rojo, rojo, verde_medio, rojo, rojo],
     [verde_medio, rojo, rojo, rojo, blanco, rojo, rojo, rojo, verde_medio, rojo]
 ]
-indestruc = ladrillo_indestructible(247,150,ancho_lad,alto_lad,rosa,rosa)
-ladrillos.append(indestruc)
+indestruc = ladrillo_indestructible(247,150,ancho_lad,alto_lad,blanco,verde)
+ladrillo_indestruc.append(indestruc)
 
 # Bucle para crear los ladrillos
 for fila in range(9):
     for columna in range(9):
-        # Coordenadas del ladrillo
-        x = columna * (ancho_lad + 5)
-        y = fila * (alto_lad + 5)
-        # Color del ladrillo
-        color_ladrillo = matriz_colores[fila][columna]
-        # Crear el ladrillo y añadirlo a la lista
-        ladrillo = Ladrillo(x + 7.5, y + 50, ancho_lad, alto_lad, color_ladrillo, color_ladrillo)
-        ladrillos.append(ladrillo)
+            if ((columna != 4) or (fila != 4)): 
+                # Coordenadas del ladrillo
+                x = columna * (ancho_lad + 5)
+                y = fila * (alto_lad + 5)
+                # Color del ladrillo
+                
+                color_ladrillo = matriz_colores[fila][columna]
+                # Crear el ladrillo y añadirlo a la lista
+                ladrillo = Ladrillo(x + 7.5, y + 50, ancho_lad, alto_lad, color_ladrillo, color_ladrillo)
+                ladrillos.append(ladrillo)
 
 
 while True:
@@ -294,6 +310,15 @@ while True:
             if ladrillo.color_actual == amarillo and ladrillo.color_golpeado is None:
                 ladrillos.remove(ladrillo)
             break
+    
+    for indestruc in ladrillo_indestruc:
+        if indestruc.colision(bola):
+            if indestruc.color_actual == amarillo and indestruc.color_golpeado is amarillo:
+                indestruc.color_actual = cian
+            break
+    
+    
+
     
     if not ladrillos:
         # Mostrar mensaje de enhorabuena
@@ -341,6 +366,9 @@ while True:
     
     for ladrillo in ladrillos:
         ladrillo.dibujar(ventana)
+    for indestruc in ladrillo_indestruc: 
+        indestruc.dibujar(ventana)
+    
     
     pygame.display.flip()
     tiempo.tick(60)
@@ -351,7 +379,7 @@ while True:
         velocidad_x = random.randint(min_velocidad, max_velocidad)
         velocidad_y = random.randint(min_velocidad, max_velocidad)
         bola = Bola(ancho_ven // 2, alto_ven // 2, 10, magenta_claro, velocidad_x, -velocidad_y)
-        bate = Bate(ancho_ven // 2 - 50, alto_ven - 35, 700, 20, azul)
+        bate = Bate(ancho_ven // 2 - 50, alto_ven - 35, 100, 20, azul)
     
     
     # Si se pierden todas las vidas, mostrar "Game Over" y esperar a que el jugador presione una tecla para reiniciar
